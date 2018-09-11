@@ -29,8 +29,4 @@ mvn --version
 sudo pacman -S --noconfirm gradle
 gradle --version
 
-#increase max virtual memory areas (for Elasticsearch)
-sudo sed -i '$ a\vm.max_map_count=262144' /etc/sysctl.conf
-sudo sysctl -w vm.max_map_count=262144
-
 #reboot
