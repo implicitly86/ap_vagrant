@@ -1,0 +1,90 @@
+version: '3'
+networks:
+  monitor-net:
+    driver: bridge
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+services:
+  consul:
+    image: consul:latest
+    container_name: consul
+    restart: always
+    expose:
+      - 8500
+    ports:
+      - 8500:8500
+    networks:
+      - monitor-net
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+    networks:
+      - monitor-net
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    networks:
+      - monitor-net
+
+  ap_elk:
+    image: ap_elk
+    container_name: ap_elk
+    restart: always
+    expose:
+      - 5601
+      - 9200
+      - 5044
+    ports:
+      - 5601:5601
+      - 9200:9200
+      - 5044:5044
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention=168h'
+      - '--web.enable-lifecycle'
+    restart: always
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    networks:
+      - monitor-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    networks:
+      - monitor-net

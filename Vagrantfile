@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "archlinux/archlinux"
+  config.vm.box = "ogarcia/archlinux-x64"
   config.vm.define "ap" do |ap|
   end
 
@@ -32,11 +32,13 @@ Vagrant.configure("2") do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
   config.vm.network "forwarded_port", guest: 5601, host: 5601
   config.vm.network "forwarded_port", guest: 5044, host: 5044
   config.vm.network "forwarded_port", guest: 5432, host: 5432
   config.vm.network "forwarded_port", guest: 6379, host: 6379
   config.vm.network "forwarded_port", guest: 8500, host: 8500
+  config.vm.network "forwarded_port", guest: 9090, host: 9090
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.

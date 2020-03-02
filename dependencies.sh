@@ -18,7 +18,7 @@ sudo pacman -S --noconfirm docker-compose
 docker-compose --version
 
 #install JDK
-sudo pacman -S --noconfirm jdk8-openjdk
+sudo pacman -S --noconfirm jdk11-openjdk
 java -version
 
 #install maven
