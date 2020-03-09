@@ -9,4 +9,4 @@ cd ap_elk
 sudo docker build -t ap_elk .
 
 cd /vagrant
-sudo docker-compose up
+sudo docker-compose up -d

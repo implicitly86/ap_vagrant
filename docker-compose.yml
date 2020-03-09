@@ -7,7 +7,7 @@ volumes:
   grafana_data: {}
 services:
   consul:
-    image: consul:latest
+    image: consul
     container_name: consul
     restart: always
     expose:
@@ -18,15 +18,13 @@ services:
       - monitor-net
 
   postgres:
-    image: postgres:latest
+    image: postgres
     container_name: postgres
     restart: always
     expose:
       - 5432
     ports:
       - 5432:5432
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
@@ -34,7 +32,7 @@ services:
       - monitor-net
 
   redis:
-    image: redis:latest
+    image: redis
     container_name: redis
     restart: always
     expose:
@@ -56,9 +54,11 @@ services:
       - 5601:5601
       - 9200:9200
       - 5044:5044
+    networks:
+      - monitor-net
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     container_name: prometheus
     volumes:
       - ./prometheus/:/etc/prometheus/
@@ -79,7 +79,7 @@ services:
       - monitor-net
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana
     container_name: grafana
     restart: always
     expose:
