@@ -5,7 +5,24 @@ networks:
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  portainer_data: {}
 services:
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: always
+    expose:
+      - 8000
+      - 9000
+    ports:
+      - 8000:8000
+      - 9000:9000
+    networks:
+      - monitor-net
+
   consul:
     image: consul
     container_name: consul
