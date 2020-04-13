@@ -2,6 +2,7 @@
 
 #increase max virtual memory areas (for Elasticsearch)
 sudo sed -i '$ a\vm.max_map_count=262144' /etc/sysctl.conf
+sudo echo 262144 > /proc/sys/vm/max_map_count
 sudo sysctl -w vm.max_map_count=262144
 
 git clone https://github.com/implicitly86/ap_elk.git

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+sudo pacman -Syy
+
+sudo pacman -S --noconfirm reflector
+sudo reflector --latest 200 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
 sudo pacman -Syyu --noconfirm
 
 # install unzip
